@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
+import { IAdmin } from "../interfaces";
 
 const adminSchema = new Schema({
     nombre: { type: String, required: true },
@@ -9,5 +10,5 @@ const adminSchema = new Schema({
     ID: { type: String, required: true },
 });
 
-export const Admin =
+export const Admin: Model<IAdmin> =
     mongoose.models.Admin || mongoose.model("Admin", adminSchema);

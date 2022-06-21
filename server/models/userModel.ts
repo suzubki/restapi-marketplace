@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
+import { IUser } from "../interfaces";
 
 const userSchema = new Schema({
     nombre: { type: String, required: true },
@@ -10,4 +11,5 @@ const userSchema = new Schema({
     direccion: [{ type: String, required: true }],
 });
 
-export const User = mongoose.models.User || mongoose.model("User", userSchema);
+export const User: Model<IUser> =
+    mongoose.models.User || mongoose.model("User", userSchema);
