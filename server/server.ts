@@ -1,7 +1,7 @@
 import http from "http";
 import api from "./api";
-// import config from "./config/config";
-// import { db } from "./config/database";
+import { config } from "./config";
+import { db } from "./config/database";
 
 const server = http.createServer(api);
 
@@ -38,5 +38,5 @@ const onError = (error: any) => {
 server.on("listening", onListening);
 server.on("error", onError);
 
-// db.connect();
+db.connect();
 server.listen(serverConfig.PORT);
