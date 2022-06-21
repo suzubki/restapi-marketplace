@@ -1,5 +1,7 @@
 /node_modules
 
+.vscode
+
 ## Environments variables
 .env
 .env.development
