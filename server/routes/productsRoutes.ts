@@ -37,17 +37,20 @@ router.post("/", async (req: Request, res: Response) => {
 
 router.get("/search", async (req: Request, res: Response) => {
     try {
-        if (Object.keys(req.query).length === 0)
+        if (Object.keys(req.query).length === 0) {
             return res
                 .status(400)
                 .json({ message: "No se ha recibido ningun parametro" });
+        }
 
-        // const { nombre } = req.params || "";
         // buscar por nombre, proveedor, disponibilidad(stock), categoria, rango de precio
         const findProductByQuery = { ...req.query };
         if (req.query.rango) {
-            const rango = req.query.rango.toString().split("-");
-            findProductByQuery.precio = { $gte: rango[0], $lte: rango[1] };
+            const rangeOfPrice = req.query.rango.toString().split("-");
+            findProductByQuery.precio = {
+                $gte: rangeOfPrice[0],
+                $lte: rangeOfPrice[1],
+            };
         }
 
         const products: IProduct[] = await Product.find(findProductByQuery)
