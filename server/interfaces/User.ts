@@ -1,5 +1,6 @@
 export interface IUser {
-    _id: string;
+    // Mongo object id
+    _id?: string;
 
     nombre: string;
     apellidos: string;
@@ -8,4 +9,7 @@ export interface IUser {
     telefono: number;
     contraseña: string;
     direccion: string | string[];
+
+    role: string;
+    ID?: string;
 }
