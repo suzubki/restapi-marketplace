@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 
-import { userRoutes, adminRoutes, productsRoutes } from "./routes";
+import { userRoutes, productsRoutes, fakeRoutes } from "./routes";
 
 const api = express();
 
@@ -17,7 +17,9 @@ api.use(helmet());
 
 // routes
 api.use("/register/user", userRoutes);
-api.use("/register/admin", adminRoutes);
 api.use("/products", productsRoutes);
+
+// seed fake data
+api.use("/seed", fakeRoutes);
 
 export default api;
