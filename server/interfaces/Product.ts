@@ -8,8 +8,8 @@ export interface IProduct {
     descripcion_del_producto: string;
 
     // timestamps
-    createdAt: string;
-    updatedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export type IProductCategory =
