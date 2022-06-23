@@ -1,22 +1,13 @@
-import { Request, Response, Router } from "express";
-import { User } from "../models";
+import { Router } from "express";
+
+import { userController } from "../controllers";
 
 const router = Router();
 
-router.post("/", async (req: Request, res: Response) => {
-    try {
-        const newUser = await User.create(req.body);
+// Login user
+router.post("/login", userController.userLogin);
 
-        return res.status(201).json({
-            message: "Usuario creado",
-            user: newUser,
-        });
-    } catch (error) {
-        return res.status(400).json({
-            message: "Error al crear un usuario",
-            error,
-        });
-    }
-});
+// Register user
+router.post("/register", userController.userRegister);
 
 export { router as userRoutes };

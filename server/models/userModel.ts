@@ -13,6 +13,14 @@ const userSchema = new Schema(
 
         role: { type: String, default: "client" },
         ID: { type: String },
+
+        // orders
+        orders: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Order",
+            },
+        ],
     },
     {
         timestamps: true,

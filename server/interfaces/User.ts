@@ -10,6 +10,13 @@ export interface IUser {
     contraseña: string;
     direccion: string | string[];
 
-    role: string;
+    role?: string;
     ID?: string;
+
+    // orders
+    order?: string[];
+
+    // timestamps
+    createdAt?: string;
+    updatedAt?: string;
 }
