@@ -1,72 +1,32 @@
-import { Request, Response, Router } from "express";
-import { IProduct } from "../interfaces";
-import { Product } from "../models";
+import { Router } from "express";
+
+import { productController } from "../controllers";
+import { authMiddleware } from "../middlewares";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
-    try {
-        const products: IProduct[] = await Product.find().lean();
+router.get("/", productController.getAllProducts);
+router.get("/search", productController.getProductByQuery);
 
-        return res
-            .status(200)
-            .json({ message: "Productos encontrados", products });
-    } catch (error) {
-        return res.status(400).json({
-            message: "Error conseguir los productos",
-            error,
-        });
-    }
-});
+router.post(
+    "/",
+    authMiddleware.verifyToken,
+    authMiddleware.isAdmin,
+    productController.createProduct
+);
 
-router.post("/", async (req: Request, res: Response) => {
-    try {
-        const newProduct: IProduct = await Product.create(req.body);
+router.put(
+    "/:id",
+    authMiddleware.verifyToken,
+    authMiddleware.isAdmin,
+    productController.updateProduct
+);
 
-        return res.status(201).json({
-            message: "Producto creado",
-            product: newProduct,
-        });
-    } catch (error) {
-        return res.status(400).json({
-            message: "Error al crear el producto",
-            error,
-        });
-    }
-});
-
-router.get("/search", async (req: Request, res: Response) => {
-    try {
-        if (Object.keys(req.query).length === 0) {
-            return res
-                .status(400)
-                .json({ message: "No se ha recibido ningun parametro" });
-        }
-
-        // buscar por nombre, proveedor, disponibilidad(stock), categoria, rango de precio
-        const findProductByQuery = { ...req.query };
-        if (req.query.rango) {
-            const rangeOfPrice = req.query.rango.toString().split("-");
-            findProductByQuery.precio = {
-                $gte: rangeOfPrice[0],
-                $lte: rangeOfPrice[1],
-            };
-        }
-
-        const products: IProduct[] = await Product.find(findProductByQuery)
-            .select("nombre_del_producto proveedor stock precio categoria")
-            .lean();
-
-        return res.json({
-            message: "Productos encontrados",
-            products,
-        });
-    } catch (error) {
-        return res.status(400).json({
-            message: "Error al filtrar los productos",
-            error,
-        });
-    }
-});
+router.delete(
+    "/:id",
+    authMiddleware.verifyToken,
+    authMiddleware.isAdmin,
+    productController.deleteProduct
+);
 
 export { router as productsRoutes };
