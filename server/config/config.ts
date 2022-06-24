@@ -1,10 +1,13 @@
 import dotenv from "dotenv";
 
 const envinroment = process.env.NODE_ENV?.trim();
+dotenv.config();
 
-dotenv.config({
-    path: `.env.${envinroment}`,
-});
+if (envinroment === "development") {
+    dotenv.config({
+        path: `.env.${envinroment}`,
+    });
+}
 
 export const config = {
     serverConfig: {
