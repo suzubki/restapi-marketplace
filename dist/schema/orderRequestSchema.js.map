@@ -1,0 +1,1 @@
+{"version":3,"file":"orderRequestSchema.js","sourceRoot":"","sources":["../../server/schema/orderRequestSchema.ts"],"names":[],"mappings":";;;;;;AAAA,8CAAsB;AAET,QAAA,iBAAiB,GAAG,aAAG,CAAC,MAAM,CAAC;IACxC,SAAS,EAAE,CAAC,aAAG,CAAC,KAAK,EAAE,EAAE,aAAG,CAAC,MAAM,EAAE,CAAC;CACzC,CAAC,CAAC"}
