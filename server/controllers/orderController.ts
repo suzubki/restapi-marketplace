@@ -21,8 +21,6 @@ export const getAllOrders = async (req: Request, res: Response) => {
 
 // Post Method
 export const createOrder = async (req: Request, res: Response) => {
-    // TODO: Validamos los campos necesarios
-
     // TODO: Validar que el cupón sea válido
 
     const { cupon, productos } = req.body as IOrder;

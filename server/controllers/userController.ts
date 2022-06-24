@@ -3,17 +3,14 @@ import bcrypt from "bcryptjs";
 
 import { User } from "../models";
 import { jwt } from "../utils";
+import { IUser } from "../interfaces";
 
 export const userLogin = async (req: Request, res: Response) => {
     try {
-        // TODO: Validamos que los campos esten completos, usaremos Joi Validator
-
-        const { correo, contraseña } = req.body;
-        if (!correo) {
-            return res.json({
-                message: "Ingresa un email válido",
-            });
-        }
+        const { correo, contraseña } = req.body as {
+            correo: string;
+            contraseña: string;
+        };
         // Verify if email exists on database
         const user = await User.findOne({ correo });
         if (!user) {
@@ -51,9 +48,11 @@ export const userLogin = async (req: Request, res: Response) => {
 
 export const userRegister = async (req: Request, res: Response) => {
     try {
-        // TODO: Validamos que los campos esten completos, usaremos Joi Validator
-
-        const { correo, contraseña, nombre } = req.body;
+        const { correo, contraseña, nombre } = req.body as {
+            correo: string;
+            contraseña: string;
+            nombre: string;
+        };
         // Verify if email exists on database
         const oldUser = await User.findOne({ correo });
         if (oldUser) {
@@ -81,6 +80,34 @@ export const userRegister = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(400).json({
             message: "Error al crear un usuario",
+            error,
+        });
+    }
+};
+
+export const getUserHistory = async (req: Request, res: Response) => {
+    const { userId } = req.params;
+
+    try {
+        const user = await User.findById(userId).populate({
+            path: "orders",
+            populate: { path: "productos._id cupon" },
+        });
+
+        if (!user) {
+            return res.status(400).json({
+                message:
+                    "Error al crear el usuario, asegúrese de que el parámetro sea válido",
+            });
+        }
+
+        return res.status(200).json({
+            message: "Usuario encontrado",
+            user,
+        });
+    } catch (error) {
+        return res.status(400).json({
+            message: "Error al obtener el historial del usuario",
             error,
         });
     }

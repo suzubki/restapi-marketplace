@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import { couponController } from "../controllers";
 import { authMiddleware } from "../middlewares";
+import { couponValidator } from "../validators";
 
 const router = Router();
 
@@ -21,6 +22,7 @@ router.get(
 
 router.post(
     "/",
+    couponValidator.requestCreateCoupon,
     authMiddleware.verifyToken,
     authMiddleware.isAdmin,
     couponController.createCoupon

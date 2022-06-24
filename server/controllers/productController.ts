@@ -21,7 +21,6 @@ export const getAllProducts = async (req: Request, res: Response) => {
 
 // GET Method
 export const getProductByQuery = async (req: Request, res: Response) => {
-    // TODO: Validar que los querys sean válidos
     try {
         if (Object.keys(req.query).length === 0) {
             return res
@@ -48,10 +47,8 @@ export const getProductByQuery = async (req: Request, res: Response) => {
             products,
         });
     } catch (error) {
-        // TODO: El error no debe aparecer en los distintos ambientes
         return res.status(400).json({
             message: "Error al filtrar los productos",
-            error,
         });
     }
 };
@@ -68,21 +65,22 @@ export const createProduct = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(400).json({
             message: "Error al crear el producto",
-            error,
         });
     }
 };
 
 // UPDATE Method
 export const updateProduct = async (req: Request, res: Response) => {
-    // TODO: validar que el _id y el req.body sean campos válidos
-    // Solo se podrán editar los campos de proveedor,stock,precio,especificaciones,descripcion_del_producto,
-
     const { id } = req.params;
     try {
-        await Product.findByIdAndUpdate(id, {
+        const product = await Product.findByIdAndUpdate(id, {
             ...req.body,
         });
+        if (!product) {
+            return res.status(400).json({
+                message: "Producto no encontrado",
+            });
+        }
 
         return res.status(201).json({
             message: "Producto actualizado",
@@ -96,10 +94,14 @@ export const updateProduct = async (req: Request, res: Response) => {
 
 // DELETE Method
 export const deleteProduct = async (req: Request, res: Response) => {
-    // TODO: validar que el _id y el req.body sean campos válidos
     const { id } = req.params;
     try {
-        await Product.findByIdAndDelete(id);
+        const product = await Product.findByIdAndDelete(id);
+        if (!product) {
+            return res.status(400).json({
+                message: "Producto no encontrado",
+            });
+        }
 
         return res.status(200).json({
             message: "Producto eliminado",

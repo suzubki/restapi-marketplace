@@ -45,12 +45,10 @@ export const isValidCoupon = async (req: Request, res: Response) => {
 
 // Post Method
 export const createCoupon = async (req: Request, res: Response) => {
-    // TODO: Verificar los campos del cupón
     let { fecha_de_vencimiento } = req.body as ICoupon;
     if (!fecha_de_vencimiento) {
         req.body.fecha_de_vencimiento = date.getDateInSomeDays(20);
     }
-    // TODO: Verificar si la fecha es mayor a la actual
     if (date.isDateLessThanToday(fecha_de_vencimiento)) {
         return res.status(400).json({
             message:
