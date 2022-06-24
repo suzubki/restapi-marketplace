@@ -5,7 +5,9 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "set NODE_ENV=development && npx nodemon ./server/server.ts"
+        "dev": "set NODE_ENV=development && npx nodemon ./server/server.ts",
+        "start": "set NODE_ENV=development && node dist/server.js",
+        "postinstall": "tsc"
     },
     "keywords": [],
     "author": "",
