@@ -31,7 +31,6 @@ exports.getAllOrders = getAllOrders;
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // TODO: Validar que el cupón sea válido
     const { cupon, productos } = req.body;
-    // Validate all the products
     const subtotal = yield productos.reduce((promise, product) => __awaiter(void 0, void 0, void 0, function* () {
         return promise.then((last) => __awaiter(void 0, void 0, void 0, function* () {
             const productFinded = yield models_1.Product.findById(product._id);

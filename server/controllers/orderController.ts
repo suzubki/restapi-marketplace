@@ -25,7 +25,6 @@ export const createOrder = async (req: Request, res: Response) => {
 
     const { cupon, productos } = req.body as IOrder;
 
-    // Validate all the products
     const subtotal = await productos.reduce(async (promise, product) => {
         return promise.then(async (last) => {
             const productFinded = await Product.findById(product._id);
@@ -35,7 +34,6 @@ export const createOrder = async (req: Request, res: Response) => {
     }, Promise.resolve(0));
 
     // TODO: Verificar si se ha introducido el cupón o no
-
     const couponFinded = await Coupon.findById(cupon);
 
     // TODO: Redondear el total t-t
